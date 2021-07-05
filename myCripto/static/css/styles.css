@@ -1,0 +1,40 @@
+.tabla-movimientos tbody tr:hover {
+    background-color: aquamarine;
+}
+.column-bgrd {
+    background-color: aquamarine !important;
+    margin: 10px;
+}
+footer {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: aquamarine;
+}
+header {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    background-color: aquamarine;
+    font-size: 3em;
+}
+#cantidadTo {
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0.1rem solid #d1d1d1;
+    border-radius: .4rem;
+    box-shadow: none;
+    box-sizing: inherit;
+    height: 3.8rem;
+    padding: .6rem 1.0rem .7rem;
+    width: 100%;
+}
+#exchangeRate{
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0.1rem solid #d1d1d1;
+    border-radius: .4rem;
+    box-shadow: none;
+    box-sizing: inherit;
+    height: 3.8rem;
+    padding: .6rem 1.0rem .7rem;
+    width: 100%;
+}

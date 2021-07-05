@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myCripto</title>
+    <link rel="stylesheet" href="/static/css/milligram.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/home.js"></script>
+    
+    
+      
+</head>
+<body>
+    <header>MyCripto</header>
+    <!--------------   arriba     ---------------------->
+    <div class="container" id="principal">    
+    <div class="row">
+        <!-------- columna izda  ---------------------->
+        <div class="column column-75" >
+            <h2>Balance de movimientos</h2> 
+                    
+            <div class="lista-movimientos" style="
+                    border: 1px solid #333333;
+                    height: 18vw;
+                    overflow: scroll;">
+                <table class="tabla-movimientos">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>From</th>
+                            <th>Cantidad</th>
+                            <th>To</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody ></tbody>  
+                </table>
+            </div>
+        </div>
+        <!-------- columna dcha  ---------------------->
+        <div class="column column-25">
+            <h2>Rdo Inversion</h2> 
+            Invertido:
+            <div id = "colocarInversion2"></div>
+            Valor:
+            <div id = "colocarInversion"></div>
+            Resultado:
+            <div id = "colocarStatus"></div>
+        </div>
+    </div>
+</div>
+<!--------------   fin arriba     ---------------------->
+
+<!--------------   fila inferior     ---------------------->
+    <div class="container" id="principal">
+        <h2>Comprar/vender</h2>
+
+        <div class="row">
+            <!-------- columna izda  ---------------------->
+            <div class="column column-75">
+                <div class="row">
+                    <div class="column column-50">
+                        Moneda a vender:
+                        <select name="monedaFrom" id="monedaFrom" class = "monedaFrom"></select>
+                    </div>
+                    <div class="column column-50">
+                        Moneda a comprar:
+                        <select name="monedaTo" id="monedaTo" class = "monedaTo">
+                            <option value="EUR" value="1000">Euro</option> 
+                            <option value="BTC">Bitcoin</option> 
+                            <option value="ETH">Ethereum</option>
+                            <option value="XRP">XRP</option> 
+                            <option value="LTC">Debian</option> 
+                            <option value="BCH">Bitcoin Cash</option>
+                            <option value="BNB">Binance Coin</option>
+                            <option value="USDT">Tether</option>
+                            <option value="EOS">EOS</option>
+                            <option value="BSV">Bitcoin SV</option>
+                            <option value="XLM">Stellar</option>
+                            <option value="ADA">Cardano</option>
+                            <option value="TRX">Tron</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column column-33">
+                        Cantidad a vender:
+                        <input type="text" name="cantidadFrom" id="cantidadFrom" placeholder="Introduce la cantidad a vender">
+                    </div>
+                    <div class="column column-33">
+                        Cantidad a comprar:
+                        <div id="cantidadTo"></div>
+                    </div>
+                    <div class="column column-33">
+                        Tipo de cambio:
+                        <div id="exchangeRate"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column column-33">
+                        <button id="actualizaValor">Actualizar</button>
+                    </div>
+                    <div class="column column-33">
+                        <button id="grabaValor">Comprar</button>
+                        <script src="/static/js/apicode.js"></script>
+                    </div> 
+
+                </div> 
+            </div>
+            <!-------- columna dcha  ---------------------->
+            <div class="column column-25">
+                Saldo actual en unidades:
+                <div class="lista-movimientos" style="
+                border: 1px solid #333333;
+                height: 10vw;
+                overflow: scroll;" id = "situacionMonedas"></div>
+                
+            </div>
+        </div>
+        <!-- Fila de los botones -->
+        
+                                 
+    </div>
+<footer>&copy 2021 -todos los derechos reservados</footer>
+</body>
+</html>
