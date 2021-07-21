@@ -28,7 +28,7 @@ document.querySelector("#actualizaValor")
     .addEventListener("click", () => {
         const monedaFrom = document.querySelector("#monedaFrom").value
         const monedaTo = document.querySelector("#monedaTo").value
-        url = `http://localhost:5000/api/v1/par/${monedaFrom}/${monedaTo}`
+        url = `http://3.139.196.162/api/v1/par/${monedaFrom}/${monedaTo}`
         xhr.open('GET', url , true)
         xhr.send();
     }
