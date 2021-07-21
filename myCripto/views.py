@@ -116,7 +116,7 @@ def valor():
     for i in range (0, len(movimiento)):
         clave = movimiento[i]['monedaCodigo']
         if clave != "EUR":
-            url = f"http://localhost:5000/api/v1/par/{clave}/EUR"
+            url = f"http://3.139.196.162/api/v1/par/{clave}/EUR"
             devuelve = requests.get(url)
             dev = devuelve.json()
             valor = dev['data']['quote']['EUR']['price']
@@ -131,15 +131,15 @@ def valor():
 @app.route('/api/v1/beneficio')
 def beneficio():
     total = 0
-    url1 = "http://localhost:5000/api/v1/unicos"
+    url1 = "http://3.139.196.162/api/v1/unicos"
     resp1 = requests.get(url1)
     respuesta1 = resp1.json()
 
-    url2 = "http://localhost:5000/api/v1/valor"
+    url2 = "http://3.139.196.162/api/v1/valor"
     resp2 = requests.get(url2)
     respuesta2 = resp2.json()
 
-    url3 = "http://localhost:5000/api/v1/saldo"
+    url3 = "http://3.139.196.162/api/v1/saldo"
     resp3 = requests.get(url3)
     respuesta3 = resp3.json()
         
