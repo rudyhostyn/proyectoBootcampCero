@@ -59,7 +59,7 @@ def saldo():
 @app.route('/api/v1/par/<_from>/<_to>')
 def par(_from, _to, quantity = 1.0):
     clave = API_COINMARKET
-    url = f"https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={quantity}&symbol={_from}&convert={_to}&CMC_PRO_API_KEY={API_COINMARKET}"
+    url = f"https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={quantity}&symbol={_from}&convert={_to}&CMC_PRO_API_KEY=0b92c0c3-80c0-40a5-8611-295434c86c96"
       
     res = requests.get(url)
     return res.text
