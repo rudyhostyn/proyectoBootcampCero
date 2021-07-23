@@ -17,9 +17,12 @@ const descMonedas = {
 
 const xhr3 = new XMLHttpRequest()
 
+const IP_ADDRESS = []
 
-
-
+function direccionIP(){
+    a = document.querySelector("#ipadress").innerHTML.substr(2,14)
+    IP_ADDRESS.push(a)
+}
 
 var unicos = []
 
@@ -140,7 +143,7 @@ function llamaApiCreaMovimiento() {
 
     const grabacion = capturaFormMovimiento()
     const xhr2 = new XMLHttpRequest()     
-    xhr2.open("POST", `http://3.139.196.162/api/v1/movimiento`, true)
+    xhr2.open("POST", `http://${IP_ADDRESS}/api/v1/movimiento`, true)
     xhr2.onload = refresca
 
     xhr2.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
@@ -169,7 +172,7 @@ function ImporteInvertido() {
 }
 function llamaApiImporteInvertido() {
     const xhr3 = new XMLHttpRequest() 
-    xhr3.open('GET', `http://3.139.196.162/api/v1/inversion`, true)
+    xhr3.open('GET', `http://${IP_ADDRESS}/api/v1/inversion`, true)
     xhr3.onload = ImporteInvertido
     xhr3.send()
 }
@@ -195,7 +198,7 @@ function importeBeneficio() {
 }
 function llamaApiImporteBeneficio(){
     const xhr13 = new XMLHttpRequest() 
-    xhr13.open('GET', `http://3.139.196.162/api/v1/beneficio`, true)
+    xhr13.open('GET', `http://${IP_ADDRESS}/api/v1/beneficio`, true)
     xhr13.onload = importeBeneficio
     xhr13.send()
 }
@@ -230,7 +233,7 @@ function historicoMovimientos() {
 }
 function llamaApiHistoricoMovimientos() {
     const xhr2 = new XMLHttpRequest()
-    xhr2.open('GET', `http://3.139.196.162/api/v1/movimientos`, true)
+    xhr2.open('GET', `http://${IP_ADDRESS}/api/v1/movimientos`, true)
     xhr2.onload = historicoMovimientos
     xhr2.send()
 }
@@ -266,7 +269,7 @@ function tablaMonedasCantidad(){
 function llamaApiTablaMonedasCantidad() {
     const grabacion = capturaFormMovimiento()
     xhr7 = new XMLHttpRequest()
-    xhr7.open("GET", `http://3.139.196.162/api/v1/saldo`, true)
+    xhr7.open("GET", `http://${IP_ADDRESS}/api/v1/saldo`, true)
     xhr7.onload = tablaMonedasCantidad
     xhr7.send()
 }
@@ -300,14 +303,16 @@ function MonedasConSaldo(){
         }
     }
     llamaApiTablaMonedasCantidad();
+    
 }
 function llamaApiMonedasConSaldo() {
     xhr4 = new XMLHttpRequest()
-    xhr4.open('GET', `http://3.139.196.162/api/v1/unicos`, true)
+    xhr4.open('GET', `http://${IP_ADDRESS}/api/v1/unicos`, true)
     xhr4.onload = MonedasConSaldo
     xhr4.send()
 }
 window.onload = function() {
+    direccionIP();
     llamaApiMonedasConSaldo();  
     llamaApiImporteInvertido();
     

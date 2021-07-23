@@ -5,14 +5,19 @@ from http import HTTPStatus
 import sqlite3
 from myCripto.dataaccess import DBmanager
 from config import API_COINMARKET
+from config import IP_ADDRESS
+import jinja2
 
 import requests
+import json
+
 
 dbManager = DBmanager(app.config.get('DATABASE'))
 
 @app.route('/')
 def index():
-    return render_template("home.html")
+    data = [IP_ADDRESS]
+    return render_template("home.html", data=json.dumps(data))
 
 @app.route('/api/v1/movimientos')
 def movimientosAPI():        
@@ -116,7 +121,7 @@ def valor():
     for i in range (0, len(movimiento)):
         clave = movimiento[i]['monedaCodigo']
         if clave != "EUR":
-            url = f"http://3.139.196.162/api/v1/par/{clave}/EUR"
+            url = f"http://{IP_ADDRESS}/api/v1/par/{clave}/EUR"
             devuelve = requests.get(url)
             dev = devuelve.json()
             valor = dev['data']['quote']['EUR']['price']
@@ -130,27 +135,23 @@ def valor():
 
 @app.route('/api/v1/beneficio')
 def beneficio():
-    total = 0
-    url1 = "http://3.139.196.162/api/v1/unicos"
-    resp1 = requests.get(url1)
-    respuesta1 = resp1.json()
-
-    url2 = "http://3.139.196.162/api/v1/valor"
-    resp2 = requests.get(url2)
-    respuesta2 = resp2.json()
-
-    url3 = "http://3.139.196.162/api/v1/saldo"
-    resp3 = requests.get(url3)
-    respuesta3 = resp3.json()
-        
-    for i in range (0, len(respuesta1['movimientos'])):
-        moneda = respuesta1['movimientos'][i]['monedaCodigo']
-        valor = respuesta2['movimientos'][moneda]
-        cantidad = respuesta3['movimientos'][moneda]
-        
-        total = total + valor * cantidad
     try:
+        total = 0
+
+        url2 = f"http://{IP_ADDRESS}/api/v1/valor"
+        resp2 = requests.get(url2)
+        respuesta2 = resp2.json()
+
+        url3 = f"http://{IP_ADDRESS}/api/v1/saldo"
+        resp3 = requests.get(url3)
+        respuesta3 = resp3.json()
+
+        for k in respuesta2['movimientos']:
+            valor = respuesta2['movimientos'][k]
+            cantidad = respuesta3['movimientos'][k]
+            
+            total = total + valor * cantidad
         return jsonify({'status': 'success', 'beneficio': total})
     except sqlite3.Error as e:
-        return jsonify({'status': 'fail', 'mensaje': str(e)})
+        return jsonify({'status': 'fail', 'mensaje': str(e)}), HTTPStatus.INTERNAL_SERVER_ERROR
 
