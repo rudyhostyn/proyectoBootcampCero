@@ -11,7 +11,6 @@ import jinja2
 import requests
 import json
 
-
 dbManager = DBmanager(app.config.get('DATABASE'))
 
 @app.route('/')
@@ -67,7 +66,16 @@ def par(_from, _to, quantity = 1.0):
     url = f"https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={quantity}&symbol={_from}&convert={_to}&CMC_PRO_API_KEY={API_COINMARKET}"
       
     res = requests.get(url)
-    return res.text
+    aa = res.json()
+
+    if aa['status']['error_code'] == 0:
+        return aa
+    else:
+        bb = aa['status']['error_message']
+        print(bb)
+        return bb
+    
+   
 
 
 @app.route('/api/v1/inversion')
@@ -85,18 +93,19 @@ def inversionAPI():
 
 @app.route('/api/v1/unicos')
 def unicos():
-    query = """	
-            WITH unicos AS (
-                WITH resultado AS (
-                    SELECT dbmovimientos.moneda_from AS monedaCodigo , -Sum(dbmovimientos.cantidad_from) AS total FROM dbmovimientos GROUP by moneda_from
-                    UNION ALL
-                    SELECT dbmovimientos.moneda_to AS monedaCodigo , Sum(dbmovimientos.cantidad_to) AS total FROM dbmovimientos GROUP BY	moneda_to
-                )
-                SELECT monedaCodigo, sum(total) AS monedaSaldo FROM resultado GROUP BY monedaCodigo
-            )
-            SELECT monedaCodigo  FROM unicos WHERE monedaSaldo <> 0;"""
-    movimientos = dbManager.consultaMuchasSQL(query)
     try:
+        query = """	
+                WITH unicos AS (
+                    WITH resultado AS (
+                        SELECT dbmovimientos.moneda_from AS monedaCodigo , -Sum(dbmovimientos.cantidad_from) AS total FROM dbmovimientos GROUP by moneda_from
+                        UNION ALL
+                        SELECT dbmovimientos.moneda_to AS monedaCodigo , Sum(dbmovimientos.cantidad_to) AS total FROM dbmovimientos GROUP BY	moneda_to
+                    )
+                    SELECT monedaCodigo, sum(total) AS monedaSaldo FROM resultado GROUP BY monedaCodigo
+                )
+                SELECT monedaCodigo  FROM unicos WHERE monedaSaldo <> 0;"""
+        movimientos = dbManager.consultaMuchasSQL(query)
+    
         return jsonify({'status': 'success', 'movimientos': movimientos})
     except sqlite3.Error as e:
         return jsonify({'status': 'fail', 'mensaje': str(e)})
@@ -164,5 +173,5 @@ def beneficio():
     try:
         return jsonify({'status': 'success', 'beneficio': ValorActual })
     except sqlite3.Error as e:
-        return jsonify({'status': 'fail', 'mensaje': str(e)})
+         print('SQLite error: %s' % (' '.join(e.args)))
 

@@ -31,6 +31,12 @@ function sacaValor(){
     var dondeColocoInversion = document.querySelector("#colocarInversion")
     fila2 = document.createElement("p")
     valorInversion = parseFloat(document.querySelector(".eurosInversion").innerHTML)
+    if (document.querySelector(".eurosBeneficio") == null){
+        alert("No se ha podido obtener los valores de las monedas")
+    }
+    else {
+        valorBeneficio = parseFloat(document.querySelector(".eurosBeneficio").innerHTML)
+    }
     valorBeneficio = parseFloat(document.querySelector(".eurosBeneficio").innerHTML)
     var in2 = valorInversion-valorBeneficio
     fila2.innerHTML = in2.toFixed(2)
@@ -42,7 +48,6 @@ function grabaCantidadAComprar() {
     /* Creamos esta variable para evitar grabar un valor sin actualizar previamente */
     valor = document.querySelector("#cantidadFrom").value
     ultimaCantidadFromActualizada = parseFloat(valor)
-    console.log(ultimaCantidadFromActualizada)    
 }
 function capturaFormMovimiento() {
     var today = new Date();

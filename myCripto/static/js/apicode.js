@@ -3,9 +3,14 @@ datoValor.classList.add("row")*/
 
 function gestionaRespuestaAsincrona(){
     if (this.readyState === 4 && this.status === 200) {
-        console.log(this.responseText)
-        respuesta = JSON.parse(this.responseText)
+        if (this.responseText == "No se ha podido obtener los valores de las monedas"){
+            alert(this.responseText)
+            respuesta = JSON.parse(this.responseText)
         }
+        else{
+            respuesta = JSON.parse(this.responseText)
+        }
+    }
     const rdo = respuesta.data
 
 divisa2 = Object.keys(rdo.quote)[0]
