@@ -19,11 +19,12 @@ valor = `rdo.quote.${divisa2}.price`
 var tipoCambio = eval(valor) 
 var cantidadFrom = document.querySelector("#cantidadFrom").value
 var cantidadTo = document.querySelector("#cantidadTo")
-        cantidadTo.innerHTML = tipoCambio * cantidadFrom
+    cantidadTo.innerHTML = tipoCambio * cantidadFrom
 var exchangeRate = document.querySelector("#exchangeRate")
-        cambio = document.createElement("p")
-        exchangeRate.appendChild(cambio)
-        cambio.innerHTML = eval(valor)
+    document.querySelector("#exchangeRate").innerHTML = ""
+    cambio = document.createElement("p")
+    exchangeRate.appendChild(cambio)
+    cambio.innerHTML = eval(valor)
 }
 
 const  xhr = new XMLHttpRequest()
@@ -33,7 +34,7 @@ document.querySelector("#actualizaValor")
     .addEventListener("click", () => {
         const monedaFrom = document.querySelector("#monedaFrom").value
         const monedaTo = document.querySelector("#monedaTo").value
-        url = `http:///${IP_ADDRESS}/api/v1/par/${monedaFrom}/${monedaTo}`
+        url = `http://${IP_ADDRESS}/api/v1/par/${monedaFrom}/${monedaTo}`
         xhr.open('GET', url , true)
         xhr.send();
     }
