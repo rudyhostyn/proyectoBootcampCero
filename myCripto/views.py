@@ -133,25 +133,36 @@ def valor():
     except sqlite3.Error as e:
         return jsonify({'status': 'fail', 'mensaje': str(e)})
 
+
 @app.route('/api/v1/beneficio')
 def beneficio():
+   
+    query = """	
+            WITH resultado AS
+            (
+            SELECT dbmovimientos.moneda_from AS monedaCodigo , -Sum(dbmovimientos.cantidad_from) AS total FROM dbmovimientos GROUP by moneda_from
+            UNION ALL
+            SELECT dbmovimientos.moneda_to AS monedaCodigo , Sum(dbmovimientos.cantidad_to) AS total FROM dbmovimientos GROUP BY	moneda_to
+            )
+            SELECT monedaCodigo, sum(total) AS monedaSaldo FROM resultado GROUP BY monedaCodigo;
+            """
+    movimiento = dbManager.consultaMuchasSQL(query)
+
+    ValorActual = 0
+    for i in range (0, len(movimiento)):
+        clave = movimiento[i]['monedaCodigo']
+        if clave != "EUR":
+            url = f"http://{IP_ADDRESS}/api/v1/par/{clave}/EUR"
+            devuelve = requests.get(url)
+            dev = devuelve.json()
+            valor = dev['data']['quote']['EUR']['price']
+            cantidad = movimiento[i]["monedaSaldo"]
+            ValorActual = ValorActual + valor * cantidad
+        else:
+            cantidad = movimiento[i]["monedaSaldo"]
+            ValorActual = ValorActual + cantidad
     try:
-        total = 0
-
-        url2 = f"http://{IP_ADDRESS}/api/v1/valor"
-        resp2 = requests.get(url2)
-        respuesta2 = resp2.json()
-
-        url3 = f"http://{IP_ADDRESS}/api/v1/saldo"
-        resp3 = requests.get(url3)
-        respuesta3 = resp3.json()
-
-        for k in respuesta2['movimientos']:
-            valor = respuesta2['movimientos'][k]
-            cantidad = respuesta3['movimientos'][k]
-            
-            total = total + valor * cantidad
-        return jsonify({'status': 'success', 'beneficio': total})
+        return jsonify({'status': 'success', 'beneficio': ValorActual })
     except sqlite3.Error as e:
-        return jsonify({'status': 'fail', 'mensaje': str(e)}), HTTPStatus.INTERNAL_SERVER_ERROR
+        return jsonify({'status': 'fail', 'mensaje': str(e)})
 
